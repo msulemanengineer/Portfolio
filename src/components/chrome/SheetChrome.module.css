@@ -1,0 +1,326 @@
+/* The drawing frame, sheet index and title strip — shared by every sheet. */
+
+.skipLink {
+  position: fixed;
+  left: calc(var(--frame) + 12px);
+  top: -60px;
+  z-index: 80;
+  padding: 8px 12px;
+  background: var(--fg);
+  color: var(--bg);
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+.skipLink:focus {
+  top: calc(var(--frame) + 8px);
+}
+
+.frame {
+  position: fixed;
+  inset: var(--frame);
+  z-index: 45;
+  border: 1px solid var(--line);
+  pointer-events: none;
+}
+
+.top {
+  position: fixed;
+  z-index: 40;
+  top: var(--frame);
+  left: var(--frame);
+  right: var(--frame);
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px 0 24px;
+  border-bottom: 1px solid var(--line);
+  background: var(--bg);
+  transition: background-color 600ms var(--ease-draw);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+.top > * {
+  pointer-events: auto;
+}
+
+.sheetLabel {
+  display: inline-flex;
+  gap: 10px;
+}
+
+.sheetNo {
+  color: var(--fg);
+}
+
+.sheetCode {
+  color: var(--vermilion);
+}
+
+.index ol {
+  display: flex;
+  gap: 4px;
+}
+
+.indexLink {
+  display: inline-flex;
+  gap: 6px;
+  padding: 6px 10px;
+  color: var(--fg-muted);
+  background: linear-gradient(var(--vermilion), var(--vermilion)) 50% 100% / 0 1px no-repeat;
+  transition: color 200ms var(--ease-out), background-size 360ms var(--ease-draw);
+}
+
+.indexLink:hover {
+  color: var(--fg);
+}
+
+.indexLink[aria-current="page"] {
+  color: var(--fg);
+  background-size: calc(100% - 20px) 1px;
+}
+
+.indexNo {
+  opacity: 0.6;
+}
+
+.indexButton {
+  display: none;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  padding: 8px 4px 8px 12px;
+  cursor: pointer;
+}
+
+/* ── title strip ───────────────────────────────────────────────────────── */
+
+.strip {
+  position: fixed;
+  z-index: 40;
+  left: var(--frame);
+  right: var(--frame);
+  bottom: var(--frame);
+  height: var(--strip);
+  border-top: 1px solid var(--line);
+  background: var(--bg);
+}
+
+/* Cover the sheet margin so scrolling content never shows outside the frame. */
+.top::before,
+.strip::after {
+  content: "";
+  position: absolute;
+  left: calc(-1 * var(--frame));
+  right: calc(-1 * var(--frame));
+  height: var(--frame);
+  background: var(--bg);
+  pointer-events: none;
+  transition: background-color 600ms var(--ease-draw);
+}
+
+.top::before {
+  bottom: 100%;
+}
+
+.strip::after {
+  top: 100%;
+}
+
+.cells {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  height: 100%;
+}
+
+.cell {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+  padding: 0 24px;
+  border-left: 1px solid var(--line);
+  min-width: 0;
+}
+
+.cell:first-child {
+  border-left: 0;
+  padding-left: 24px;
+}
+
+.cell dt {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.cell dd {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.statusDot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 8px;
+  border-radius: 50%;
+  background: var(--vermilion);
+  vertical-align: 1px;
+}
+
+.contact {
+  display: flex;
+  gap: 14px;
+}
+
+.contact a {
+  position: relative;
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
+  transition: background-size 300ms var(--ease-draw), color 200ms;
+}
+
+.contact a:hover {
+  color: var(--vermilion);
+  background-size: 100% 1px;
+}
+
+/* ── mobile ────────────────────────────────────────────────────────────── */
+
+@media (max-width: 767px), (max-aspect-ratio: 4/5) {
+  .index {
+    display: none;
+  }
+
+  .top {
+    padding: 0 4px 0 14px;
+  }
+
+  .indexButton {
+    display: inline-block;
+  }
+
+  .strip {
+    height: var(--strip-mobile);
+  }
+
+  .cells {
+    grid-template-columns: 1fr auto;
+  }
+
+  .cell:first-child,
+  .contact a:nth-child(2),
+  .contact a:nth-child(3) {
+    display: none;
+  }
+
+  .cellStatus {
+    border-left: 0;
+    padding-left: 14px;
+  }
+
+  .cellContact {
+    padding: 0 14px;
+  }
+
+  .cellStatus dd {
+    font-size: 10.5px;
+  }
+}
+
+/* ── index overlay ─────────────────────────────────────────────────────── */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  display: flex;
+  flex-direction: column;
+  padding: calc(var(--frame) + 8px) calc(var(--frame) + 14px) calc(var(--frame) + 20px);
+  background: var(--bg);
+  color: var(--fg);
+  overflow-y: auto;
+  animation: ms-appear 220ms var(--ease-out) both;
+}
+
+.overlayTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 40px;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.overlayClose {
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  padding: 10px 0 10px 16px;
+  cursor: pointer;
+}
+
+.overlayList {
+  margin-top: 16px;
+}
+
+.overlayList a {
+  display: grid;
+  grid-template-columns: 36px 1fr auto;
+  align-items: baseline;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.overlayList a[aria-current="page"] .overlayLabel {
+  color: var(--vermilion);
+}
+
+.overlayNo,
+.overlayCode {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--fg-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.overlayLabel {
+  font-size: 34px;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-weight: 500;
+}
+
+.overlayContact {
+  margin-top: auto;
+  padding-top: 28px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
+.overlayStatus {
+  margin-bottom: 14px;
+  color: var(--fg-muted);
+}
+
+.overlayContact ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+}

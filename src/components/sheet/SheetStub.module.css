@@ -1,0 +1,33 @@
+.root {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 18px;
+  padding: 120px calc(var(--frame) + 24px) calc(var(--frame) + var(--strip) + 40px);
+}
+
+.kicker,
+.note,
+.back {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.title {
+  font-size: clamp(56px, 11vw, 180px);
+  font-weight: 600;
+  font-stretch: 75%;
+  line-height: 0.9;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+.back {
+  color: var(--vermilion);
+  width: fit-content;
+  margin-top: 12px;
+}

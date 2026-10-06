@@ -1,0 +1,761 @@
+/* Figures for Sheet 02. Drawn on carbon; blue = positive/semantic, vermilion = negative/keyword. */
+
+.hintLine,
+.axisLabel,
+.vecLabel,
+.laneName,
+.nodeMeta,
+.note,
+.value,
+.confTitle,
+.confNote,
+.blendFormula,
+.stats p,
+.stats dt,
+.weights caption,
+.kvm caption {
+  font-family: var(--font-mono);
+}
+
+/* ── 01 cosine ─────────────────────────────────────────────────────────── */
+
+.cosine {
+  display: grid;
+  gap: 18px;
+}
+
+.cosineSvg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  touch-action: none;
+  user-select: none;
+}
+
+.axisLines line {
+  stroke: var(--line);
+  stroke-width: 1;
+}
+
+.axisLabel {
+  fill: var(--fg-muted);
+  font-size: 11px;
+}
+
+.arc {
+  fill: none;
+  stroke: var(--fg-muted);
+  stroke-width: 1;
+  stroke-dasharray: 2 3;
+}
+
+.theta {
+  fill: var(--fg);
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 20px;
+}
+
+.vecA,
+.vecB {
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.vecA {
+  stroke: var(--blueprint);
+}
+
+.vecB {
+  stroke: var(--vermilion);
+}
+
+.dotA {
+  fill: var(--blueprint);
+}
+
+.dotB {
+  fill: var(--vermilion);
+  stroke: var(--bg);
+  stroke-width: 2;
+  transition: r 180ms var(--ease-out);
+}
+
+.origin {
+  fill: var(--fg);
+}
+
+.vecLabel {
+  fill: var(--fg);
+  font-size: 12px;
+}
+
+.handle {
+  cursor: grab;
+  outline: none;
+}
+
+.handle:active {
+  cursor: grabbing;
+}
+
+.hit {
+  fill: transparent;
+}
+
+.handle:hover .dotB,
+.handle:focus-visible .dotB {
+  r: 9;
+}
+
+.handle:focus-visible .hit {
+  stroke: var(--vermilion);
+  stroke-width: 1;
+  stroke-dasharray: 2 3;
+}
+
+.cosineReadout {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 6px 18px;
+}
+
+.cosValue {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--fg-muted);
+}
+
+.cosValue strong {
+  color: var(--fg);
+  font-weight: 500;
+  font-size: 20px;
+  font-variant-numeric: tabular-nums;
+}
+
+.meter {
+  height: 6px;
+  background: var(--line);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.meter span {
+  display: block;
+  height: 100%;
+  background: var(--fg);
+  border-radius: 0 3px 3px 0;
+  transition: width 240ms var(--ease-out);
+}
+
+.cosVerdict {
+  grid-column: 1 / -1;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 20px;
+}
+
+.hintLine {
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--fg-muted);
+}
+
+/* ── 02 sentiment ──────────────────────────────────────────────────────── */
+
+.sentiment {
+  display: grid;
+  gap: 34px;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid var(--line);
+}
+
+.stats > div {
+  padding: 14px 14px 0 0;
+}
+
+.stats > div + div {
+  padding-left: 14px;
+  border-left: 1px solid var(--line);
+}
+
+.stats dt {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.stats dd {
+  margin: 6px 0 4px;
+  white-space: nowrap;
+  font-size: clamp(22px, 2.1vw, 32px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.stats dd small {
+  font-size: 0.42em;
+  color: var(--fg-muted);
+  letter-spacing: 0;
+}
+
+.stats p {
+  font-size: 10.5px;
+  line-height: 1.4;
+  color: var(--fg-muted);
+}
+
+.weights caption,
+.kvm caption {
+  caption-side: top;
+  text-align: left;
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  color: var(--fg-muted);
+  padding-bottom: 12px;
+}
+
+.weights {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.weights th {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  padding-bottom: 8px;
+}
+
+.headNeg {
+  text-align: left;
+}
+
+.headPos {
+  text-align: right;
+}
+
+.swatchNeg,
+.swatchPos {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  vertical-align: -1px;
+}
+
+.swatchNeg {
+  background: var(--vermilion);
+  margin-right: 6px;
+}
+
+.swatchPos {
+  background: var(--blueprint);
+  margin-left: 6px;
+}
+
+.weights td {
+  padding: 3px 0;
+}
+
+.neg,
+.pos {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cellNeg {
+  border-right: 1px solid var(--fg-muted);
+}
+
+.label {
+  flex: 0 0 38%;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  min-width: 0;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.neg .label {
+  justify-content: flex-start;
+}
+
+.pos .label {
+  justify-content: flex-end;
+}
+
+.word {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.note {
+  font-size: 9.5px;
+  color: var(--fg-muted);
+  border: 1px solid var(--line);
+  padding: 1px 4px;
+  border-radius: 2px;
+  white-space: nowrap;
+}
+
+.track {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.neg .track {
+  justify-content: flex-end;
+}
+
+.bar {
+  display: block;
+  height: 10px;
+  width: calc(var(--w) * (100% - 48px));
+  transform-origin: var(--origin, left) center;
+  transition: transform 900ms var(--ease-settle), opacity 200ms;
+}
+
+.neg .bar {
+  --origin: right;
+  background: var(--vermilion);
+  border-radius: 4px 0 0 4px;
+}
+
+.pos .bar {
+  background: var(--blueprint);
+  border-radius: 0 4px 4px 0;
+}
+
+html[data-js] [data-observe]:not([data-inview]) .bar {
+  transform: scaleX(0);
+}
+
+.value {
+  flex: none;
+  font-size: 10.5px;
+  color: var(--fg-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.weights tr:hover .value,
+.weights td:hover .value {
+  color: var(--fg);
+}
+
+.weights tbody:hover .bar {
+  opacity: 0.45;
+}
+
+.weights tbody:hover td:hover .bar {
+  opacity: 1;
+}
+
+.confusion {
+  display: grid;
+  gap: 10px;
+}
+
+.confTitle {
+  font-size: 11px;
+  color: var(--fg-muted);
+}
+
+.matrix {
+  border-collapse: separate;
+  border-spacing: 2px;
+  width: min(100%, 420px);
+  font-family: var(--font-mono);
+}
+
+.matrix th {
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  padding: 6px 8px;
+  text-align: left;
+}
+
+.matrix td {
+  padding: 14px 14px 12px;
+  font-size: 24px;
+  font-variant-numeric: tabular-nums;
+  vertical-align: top;
+}
+
+.matrix td span {
+  display: block;
+  margin-top: 4px;
+  font-size: 10px;
+  color: var(--fg-muted);
+}
+
+.hitCell {
+  background: rgb(233 230 221 / 0.1);
+}
+
+.missCell {
+  box-shadow: inset 0 0 0 1px var(--vermilion);
+}
+
+.confNote {
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--fg-muted);
+  max-width: 56ch;
+}
+
+/* ── 03 blend ──────────────────────────────────────────────────────────── */
+
+.blend {
+  display: grid;
+  gap: 18px;
+}
+
+.inputs {
+  display: flex;
+  gap: 10px;
+}
+
+.doc {
+  flex: 1;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  font-size: 14px;
+  text-align: center;
+}
+
+.lanes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.lane {
+  padding: 14px 16px 16px;
+  border-top: 2px solid var(--lane);
+  background: rgb(233 230 221 / 0.04);
+}
+
+.lane[data-tone="semantic"] {
+  --lane: var(--blueprint);
+}
+
+.lane[data-tone="skill"] {
+  --lane: var(--vermilion);
+}
+
+.laneName {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  margin-bottom: 12px;
+}
+
+.steps {
+  display: grid;
+  gap: 10px;
+  counter-reset: step;
+}
+
+.steps li {
+  counter-increment: step;
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.steps li::before {
+  content: counter(step);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--fg-muted);
+  padding-top: 3px;
+  grid-row: span 2;
+}
+
+.steps em {
+  font-style: normal;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--fg-muted);
+}
+
+.blendBar {
+  display: flex;
+  gap: 2px;
+  height: 36px;
+}
+
+.segSemantic,
+.segSkill {
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--carbon);
+  white-space: nowrap;
+  overflow: hidden;
+  transform-origin: left center;
+  transition: transform 900ms var(--ease-settle);
+}
+
+.segSemantic {
+  background: var(--blueprint);
+  border-radius: 4px 0 0 4px;
+}
+
+.segSkill {
+  background: var(--vermilion);
+  border-radius: 0 4px 4px 0;
+  transition-delay: 120ms;
+}
+
+html[data-js] [data-observe]:not([data-inview]) .segSemantic,
+html[data-js] [data-observe]:not([data-inview]) .segSkill {
+  transform: scaleX(0);
+}
+
+.blendFormula {
+  font-size: 11px;
+  color: var(--fg-muted);
+  margin-top: -8px;
+}
+
+.kvm {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin-top: 8px;
+}
+
+.kvm th {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  text-align: left;
+  padding: 0 10px 8px 0;
+}
+
+.kvm td {
+  padding: 9px 10px 9px 0;
+  border-top: 1px solid var(--line);
+  vertical-align: top;
+}
+
+.no,
+.yes {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.no {
+  color: var(--fg-muted);
+}
+
+.yes span {
+  color: var(--blueprint);
+}
+
+/* ── 04 rag ────────────────────────────────────────────────────────────── */
+
+.rag {
+  display: grid;
+  gap: 14px;
+}
+
+.ragLane {
+  display: grid;
+  gap: 10px;
+}
+
+.flow {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.node {
+  position: relative;
+  display: grid;
+  gap: 4px;
+  align-content: start;
+  padding: 10px 10px 11px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  min-height: 72px;
+}
+
+/* connector to the next node — drawn, not faded */
+.node:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  width: 12px;
+  height: 1px;
+  background: var(--fg-muted);
+}
+
+.nodeName {
+  font-size: 14px;
+  line-height: 1.1;
+}
+
+.nodeMeta {
+  font-size: 10px;
+  line-height: 1.35;
+  color: var(--fg-muted);
+}
+
+.ragLane:first-child .node:last-child {
+  border-color: var(--blueprint);
+}
+
+.join {
+  display: flex;
+  justify-content: flex-end;
+  padding-right: calc((100% - 48px) / 10);
+}
+
+.join span {
+  position: relative;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--fg-muted);
+  padding-right: 14px;
+  border-right: 1px dashed var(--blueprint);
+  line-height: 2.4;
+}
+
+.outcomes {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.outcome {
+  padding: 14px 16px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--fg-muted);
+}
+
+.outcome[data-tone="answer"] {
+  border: 1px solid var(--fg);
+}
+
+.outcome[data-tone="refuse"] {
+  border: 1px dashed var(--line);
+}
+
+.outcomeName {
+  color: var(--fg);
+  font-size: 15px;
+  margin-bottom: 6px;
+}
+
+.outcome[data-tone="refuse"] .outcomeName {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 17px;
+}
+
+/* ── narrow ────────────────────────────────────────────────────────────── */
+
+@media (max-width: 767px) {
+  .stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .stats > div:nth-child(3) {
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .stats > div:nth-child(n + 3) {
+    padding-top: 18px;
+  }
+
+  .label {
+    flex-basis: 44%;
+    font-size: 12.5px;
+  }
+
+  .note {
+    display: none;
+  }
+
+  .lanes,
+  .outcomes {
+    grid-template-columns: 1fr;
+  }
+
+  .flow {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .node {
+    grid-template-columns: 110px 1fr;
+    align-items: baseline;
+    min-height: 0;
+    padding: 9px 12px;
+  }
+
+  .node:not(:last-child)::after {
+    top: 100%;
+    left: 24px;
+    width: 1px;
+    height: 8px;
+  }
+
+  .join {
+    justify-content: flex-start;
+    padding: 0 0 0 24px;
+  }
+
+  .kvm th:nth-child(3),
+  .kvm td:nth-child(3) {
+    display: none;
+  }
+}
+
+/* The cosine SVG scales down on phones; keep its lettering readable. */
+@media (max-width: 767px) {
+  .vecLabel {
+    font-size: 17px;
+  }
+  .axisLabel {
+    font-size: 15px;
+  }
+  .theta {
+    font-size: 26px;
+  }
+}

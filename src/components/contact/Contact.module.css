@@ -1,0 +1,322 @@
+/* The title block of a drawing, expanded to a full sheet. */
+
+.sheet {
+  --pad: clamp(20px, 4.2vw, 76px);
+  min-height: 100svh;
+  padding: calc(var(--frame) + 40px + clamp(40px, 8vh, 96px)) calc(var(--frame) + var(--pad))
+    calc(var(--frame) + var(--strip) + 72px);
+}
+
+.kicker,
+.label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.head {
+  margin-bottom: clamp(36px, 6vh, 64px);
+}
+
+.title {
+  margin-top: 18px;
+  font-weight: 600;
+  font-stretch: 75%;
+  text-transform: uppercase;
+  font-size: clamp(72px, 12vw, 200px);
+  line-height: 0.84;
+}
+
+.lede {
+  margin-top: 22px;
+  max-width: 44ch;
+  font-size: clamp(18px, 1.5vw, 22px);
+  line-height: 1.5;
+}
+
+/* ── the block ─────────────────────────────────────────────────────────── */
+
+.block {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  grid-template-areas:
+    "email resume"
+    "email links"
+    "meta meta";
+  border: 1.5px solid var(--fg);
+}
+
+.block > * {
+  padding: clamp(20px, 2.4vw, 32px);
+}
+
+.emailCell {
+  grid-area: email;
+  display: grid;
+  align-content: space-between;
+  gap: 28px;
+  border-right: 1px solid var(--fg);
+}
+
+.email {
+  font-size: clamp(24px, 2.55vw, 40px);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  background: linear-gradient(var(--vermilion), var(--vermilion)) 0 100% / 0 2px no-repeat;
+  padding-bottom: 4px;
+  width: fit-content;
+  transition: background-size 500ms var(--ease-draw);
+}
+
+.email:hover {
+  background-size: 100% 2px;
+}
+
+.emailActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 28px;
+  height: 62px;
+  padding: 0 24px;
+  background: #d63f21;
+  color: var(--paper);
+  font-size: 19px;
+  font-weight: 500;
+  transition: background-color 220ms, transform 240ms var(--ease-out), box-shadow 240ms var(--ease-out);
+}
+
+.primary svg {
+  width: 28px;
+  height: 12px;
+  transition: transform 380ms var(--ease-draw);
+}
+
+.primary:hover,
+.primary:focus-visible {
+  background: #bd3419;
+  transform: translate(-3px, -3px);
+  box-shadow: 3px 3px 0 var(--line), 6px 6px 0 rgb(23 23 26 / 0.12);
+}
+
+.primary:hover svg {
+  transform: translateX(6px);
+}
+
+.copy {
+  height: 62px;
+  padding: 0 22px;
+  box-shadow: inset 0 0 0 1.5px var(--fg);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 200ms, color 200ms;
+}
+
+.copy:hover {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+.copy[data-copied] {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+.resumeCell {
+  grid-area: resume;
+  border-bottom: 1px solid var(--fg);
+}
+
+.resumes {
+  margin-top: 14px;
+  display: grid;
+  gap: 8px;
+}
+
+.resumes a {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto;
+  column-gap: 16px;
+  padding: 14px 16px;
+  box-shadow: inset 0 0 0 1px var(--fg);
+  transition: background-color 200ms, color 200ms;
+}
+
+.resumes a[data-primary] {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+.resumes a:hover {
+  background: var(--vermilion);
+  color: var(--paper);
+  box-shadow: none;
+}
+
+.rTitle {
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.rNote {
+  grid-row: 2;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+.rIcon {
+  grid-row: span 2;
+  align-self: center;
+  font-size: 20px;
+  transition: transform 300ms var(--ease-out);
+}
+
+.resumes a:hover .rIcon {
+  transform: translateY(3px);
+}
+
+.linksCell {
+  grid-area: links;
+}
+
+.links {
+  margin-top: 8px;
+}
+
+.links a {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 18px;
+  transition: color 200ms;
+}
+
+.links li:last-child a {
+  border-bottom: 0;
+}
+
+.links em {
+  font-style: normal;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--fg-muted);
+}
+
+.links a:hover {
+  color: var(--vermilion);
+}
+
+.meta {
+  grid-area: meta;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid var(--fg);
+  padding: 0 !important;
+}
+
+.meta > div {
+  padding: 14px clamp(16px, 2vw, 24px);
+}
+
+.meta > div + div {
+  border-left: 1px solid var(--line);
+}
+
+.meta dt {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.meta dd {
+  margin-top: 4px;
+  font-size: 14px;
+}
+
+.dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 8px;
+  border-radius: 50%;
+  background: var(--vermilion);
+  vertical-align: 1px;
+}
+
+.more {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 14px 28px;
+  margin-top: 40px;
+  font-size: 16px;
+}
+
+.more a {
+  transition: color 200ms;
+}
+
+.more a:hover {
+  color: var(--vermilion);
+}
+
+@media (max-width: 1023px) {
+  .block {
+    grid-template-columns: 1fr;
+    grid-template-areas: "email" "resume" "links" "meta";
+  }
+
+  .emailCell {
+    border-right: 0;
+    border-bottom: 1px solid var(--fg);
+  }
+
+  .meta {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .meta > div:nth-child(3) {
+    border-left: 0;
+  }
+
+  .meta > div:nth-child(n + 3) {
+    border-top: 1px solid var(--line);
+  }
+}
+
+@media (max-width: 767px) {
+  .sheet {
+    padding-inline: calc(var(--frame) + 12px);
+    padding-bottom: calc(var(--frame) + var(--strip-mobile) + 48px);
+  }
+
+  .primary,
+  .copy {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .copy {
+    text-align: left;
+  }
+
+  .email {
+    font-size: 24px;
+  }
+}

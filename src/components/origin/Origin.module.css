@@ -1,0 +1,542 @@
+/*
+ * Sheet 00 — Origin.
+ * Proportions come from src/lib/origin/layout.ts as custom properties.
+ * `--b` is the boundary (px), written by the engine every frame it moves.
+ * Mobile query MUST match MOBILE_QUERY in layout.ts.
+ */
+
+.root {
+  --gutter: calc(var(--frame) + 24px);
+  --field-top: var(--d-field-top);
+  --axis: var(--d-axis);
+  --rest: var(--d-rest);
+  --b: var(--rest);
+  --name-k: 7.96;
+  --name-size: min(calc((100vw - 2 * var(--gutter)) / var(--name-k)), 26vh);
+
+  position: relative;
+  height: 100svh;
+  min-height: 560px;
+  width: 100%;
+  overflow: hidden;
+  cursor: crosshair;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+/* Before the engine starts on a first visit, nothing has been drawn yet. */
+:global(html[data-intro="pending"]) .root,
+:global(html[data-intro="play"]) .root {
+  --b: 100%;
+}
+
+.canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+/* ── written layer: clipped to the left of the boundary ─────────────────── */
+
+.written {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  clip-path: inset(0 calc(100% - var(--b)) 0 0);
+}
+
+.statementWritten {
+  position: absolute;
+  left: var(--gutter);
+  top: calc(var(--field-top) + 6px);
+  max-width: 17ch;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: clamp(22px, 2vw, 32px);
+  line-height: 1.12;
+  letter-spacing: -0.018em;
+}
+
+.statementLearned {
+  position: absolute;
+  z-index: 2;
+  left: calc(var(--b) + 28px);
+  top: calc(var(--field-top) + 4px);
+  width: min(30ch, calc(100% - var(--b) - 28px - var(--gutter)));
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(25px, 2.4vw, 40px);
+  line-height: 1.04;
+  letter-spacing: -0.005em;
+  pointer-events: none;
+}
+
+/* Lettering knocks the grid out behind it, as on a real drawing. */
+.knock {
+  background: var(--bg);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  padding: 0 6px;
+  margin: 0 -6px;
+}
+
+/* ── the name ──────────────────────────────────────────────────────────── */
+
+.name {
+  position: absolute;
+  left: var(--gutter);
+  bottom: calc(100% - var(--axis));
+  margin: 0;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-stretch: 75%;
+  font-size: var(--name-size);
+  line-height: 0.72;
+  letter-spacing: -0.012em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  /* line-height 0.72 puts the baseline at the bottom of the line box, so the
+     rise mask ends exactly on the axis. --name-drop is the measured remainder. */
+  margin-bottom: calc(var(--name-size) * var(--name-drop, 0));
+}
+
+.nameDesktop,
+.nameMobileLine {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: baseline;
+  /* room for the mask without clipping cap tops */
+  padding-top: 0.06em;
+}
+
+.nameMobile {
+  display: none;
+}
+
+.baseline {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  vertical-align: baseline;
+}
+
+.rise {
+  display: inline-block;
+}
+
+/* ── axis & boundary ───────────────────────────────────────────────────── */
+
+.axis {
+  position: absolute;
+  z-index: 2;
+  left: var(--frame);
+  right: var(--frame);
+  top: var(--axis);
+  height: 1px;
+  background: var(--fg);
+  transform-origin: left center;
+  pointer-events: none;
+}
+
+.boundary {
+  position: absolute;
+  z-index: 4;
+  top: 0;
+  bottom: 0;
+  left: var(--b);
+  width: 24px;
+  margin-left: -12px;
+  cursor: ew-resize;
+  touch-action: none;
+  outline: none;
+  clip-path: inset(calc(var(--frame) + 40px) -160px calc(var(--frame) + var(--strip)) -160px);
+}
+
+.boundaryLine {
+  position: absolute;
+  top: calc(var(--frame) + 40px);
+  bottom: calc(var(--frame) + var(--strip));
+  left: 50%;
+  width: 1px;
+  margin-left: -0.5px;
+  background: var(--vermilion);
+  transition: width 160ms var(--ease-out), margin-left 160ms var(--ease-out);
+}
+
+.boundary:hover .boundaryLine,
+.root[data-dragging] .boundaryLine {
+  width: 2px;
+  margin-left: -1px;
+}
+
+.grip {
+  position: absolute;
+  left: 50%;
+  top: var(--axis);
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+}
+
+.gripMark {
+  width: 11px;
+  height: 11px;
+  background: var(--vermilion);
+  transform: rotate(45deg);
+  box-shadow: 0 0 0 4px var(--bg);
+  transition: transform 200ms var(--ease-out);
+}
+
+.boundary:hover .gripMark,
+.boundary:focus-visible .gripMark,
+.root[data-dragging] .gripMark {
+  transform: rotate(45deg) scale(1.35);
+}
+
+.boundary:focus-visible .gripMark {
+  outline: 1.5px solid var(--fg);
+  outline-offset: 5px;
+}
+
+/* Two small chevrons are the only drag hint. */
+.grip::before,
+.grip::after {
+  position: absolute;
+  font-size: 8px;
+  line-height: 1;
+  color: var(--vermilion);
+  opacity: 0.8;
+}
+
+.grip::before {
+  content: "◂";
+  left: 2px;
+}
+
+.grip::after {
+  content: "▸";
+  right: 2px;
+}
+
+/* ── caption ─────────────────────────────────────────────────────────── */
+
+.caption {
+  position: absolute;
+  z-index: 2;
+  left: calc(var(--b) + 28px);
+  top: calc(var(--d-curve-bottom) + 12px);
+  max-width: calc(100% - var(--b) - 28px - var(--gutter));
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--fg-muted);
+  pointer-events: none;
+}
+
+.num {
+  color: var(--fg);
+  font-variant-numeric: tabular-nums;
+}
+
+.sep {
+  padding: 0 0.6em;
+  opacity: 0.6;
+}
+
+.hintTouch {
+  display: none;
+}
+
+@media (hover: none) {
+  .hintPointer {
+    display: none;
+  }
+  .hintTouch {
+    display: inline;
+  }
+}
+
+/* ── forks: the two ways in ────────────────────────────────────────────── */
+
+.forks {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.forkWritten,
+.forkLearned {
+  position: absolute;
+  top: calc(var(--axis) + clamp(20px, 3.4vh, 36px));
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  pointer-events: auto;
+}
+
+.forkWritten {
+  left: var(--gutter);
+}
+
+.forkLearned {
+  left: calc(var(--b) + 28px);
+}
+
+.forkKicker {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.cta {
+  --cta-bg: transparent;
+  --cta-bg-hover: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 36px;
+  min-width: min(340px, calc(var(--b) - var(--gutter) - 48px));
+  height: clamp(56px, 7.4vh, 68px);
+  padding: 0 24px 0 26px;
+  background: var(--cta-bg);
+  color: var(--ink);
+  box-shadow: inset 0 0 0 1.5px var(--ink);
+  font-size: clamp(18px, 1.45vw, 22px);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  white-space: nowrap;
+  transition: background-color 240ms var(--ease-out), box-shadow 240ms var(--ease-out),
+    transform 240ms var(--ease-out);
+}
+
+.forkLearned .cta {
+  --cta-bg: #d63f21;
+  --cta-bg-hover: #bd3419;
+  color: var(--paper);
+  box-shadow: none;
+  min-width: min(400px, calc(100% - var(--b) - 28px - var(--gutter)));
+  height: clamp(62px, 8.2vh, 76px);
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(24px, 2.1vw, 32px);
+  letter-spacing: 0;
+}
+
+.cta:hover,
+.cta:focus-visible {
+  background: var(--cta-bg-hover);
+  color: var(--paper);
+}
+
+.forkLearned .cta:hover,
+.forkLearned .cta:focus-visible {
+  transform: translate(-3px, -3px);
+  box-shadow: 3px 3px 0 var(--line), 6px 6px 0 rgb(23 23 26 / 0.12);
+}
+
+.cta:focus-visible {
+  outline-offset: 5px;
+}
+
+.arrow {
+  flex: none;
+  width: 28px;
+  height: 12px;
+  transition: transform 380ms var(--ease-draw);
+}
+
+.cta:hover .arrow,
+.cta:focus-visible .arrow {
+  transform: translateX(6px);
+}
+
+/* ── exit: everything steps aside while the boundary sweeps ────────────── */
+
+.root[data-exit] .statementWritten,
+.root[data-exit] .statementLearned,
+.root[data-exit] .caption,
+.root[data-exit] .forks,
+.root[data-exit] .grip {
+  opacity: 0;
+  transition: opacity 280ms var(--ease-out);
+}
+
+/* ── mobile: the axis turns — written on top, learned below ────────────── */
+
+@media (max-width: 767px), (max-aspect-ratio: 4/5) {
+  .root {
+    --gutter: calc(var(--frame) + 12px);
+    --field-top: var(--m-field-top);
+    --rest: var(--m-rest);
+    --name-size: min(19.2vw, 12.5vh);
+    --strip: var(--strip-mobile);
+    min-height: 600px;
+    cursor: default;
+  }
+
+  .written {
+    clip-path: inset(0 0 calc(100% - var(--b)) 0);
+  }
+
+  .statementWritten {
+    top: calc(var(--field-top) + 4px);
+    font-size: 18px;
+    max-width: 24ch;
+  }
+
+  .name {
+    bottom: auto;
+    top: calc(var(--field-top) + 50px);
+    margin-bottom: 0;
+    line-height: 0.86;
+  }
+
+  .nameDesktop {
+    display: none;
+  }
+
+  .nameMobile {
+    display: block;
+  }
+
+  .nameMobileLine {
+    display: block;
+    width: fit-content;
+  }
+
+  .statementLearned {
+    left: var(--gutter);
+    top: max(calc(var(--b) + 18px), calc(var(--name-bottom, 0px) + 16px));
+    width: calc(100% - 2 * var(--gutter) - 40px);
+    font-size: 22px;
+  }
+
+  .axis {
+    display: none;
+  }
+
+  .boundary {
+    top: var(--b);
+    bottom: auto;
+    left: 0;
+    right: 0;
+    width: auto;
+    height: 28px;
+    margin-left: 0;
+    margin-top: -14px;
+    cursor: ns-resize;
+    pointer-events: none;
+    clip-path: none;
+  }
+
+  .boundaryLine {
+    top: 50%;
+    bottom: auto;
+    left: var(--frame);
+    right: var(--frame);
+    width: auto;
+    height: 1px;
+    margin-left: 0;
+    margin-top: -0.5px;
+  }
+
+  .boundary:hover .boundaryLine,
+  .root[data-dragging] .boundaryLine {
+    width: auto;
+    height: 2px;
+    margin-left: 0;
+    margin-top: -1px;
+  }
+
+  .grip {
+    pointer-events: auto;
+    left: auto;
+    right: calc(var(--frame) + 4px);
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+  }
+
+  .grip::before {
+    content: "▴";
+    left: 50%;
+    top: 4px;
+    transform: translateX(-50%);
+  }
+
+  .grip::after {
+    content: "▾";
+    left: 50%;
+    right: auto;
+    top: auto;
+    bottom: 4px;
+    transform: translateX(-50%);
+  }
+
+  .caption {
+    left: var(--gutter);
+    right: var(--gutter);
+    max-width: none;
+    top: auto;
+    bottom: calc(100% - var(--m-nav) + 10px);
+    font-size: 10px;
+  }
+
+  .forks {
+    inset: auto;
+    top: var(--m-nav);
+    left: var(--frame);
+    right: var(--frame);
+    bottom: calc(var(--frame) + var(--strip));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    padding: 0 12px;
+    border-top: 1px solid var(--line);
+  }
+
+  .forkWritten,
+  .forkLearned {
+    position: static;
+    gap: 0;
+  }
+
+  .forkKicker {
+    display: none;
+  }
+
+  .forkLearned {
+    order: -1;
+  }
+
+  .cta,
+  .forkLearned .cta {
+    width: 100%;
+    min-width: 0;
+    height: 54px;
+    padding: 0 20px;
+  }
+
+  .forkLearned .cta {
+    height: 62px;
+  }
+
+  .forkLearned .cta:hover,
+  .forkLearned .cta:focus-visible {
+    transform: none;
+    box-shadow: none;
+  }
+}

@@ -1,0 +1,916 @@
+/* Sheet 04 — Margin. Paper. The journey line DRAWS as you read; in Phase III it bends. */
+
+.sheet {
+  --pad: clamp(20px, 4.2vw, 76px);
+  padding: calc(var(--frame) + 40px) calc(var(--frame) + var(--pad)) 0;
+}
+
+.kicker {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+/* ── intro ─────────────────────────────────────────────────────────────── */
+
+.intro {
+  min-height: calc(100svh - var(--frame) - 40px);
+  display: grid;
+  grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+  gap: clamp(28px, 4vw, 72px);
+  align-items: center;
+  padding: 8vh 0 calc(var(--strip) + 40px);
+}
+
+.title {
+  margin-top: 18px;
+  font-weight: 600;
+  font-stretch: 75%;
+  text-transform: uppercase;
+  font-size: clamp(64px, 8.6vw, 148px);
+  line-height: 0.86;
+  max-width: 9ch;
+}
+
+.lede {
+  margin-top: 28px;
+  max-width: 46ch;
+  font-size: clamp(18px, 1.5vw, 22px);
+  line-height: 1.5;
+}
+
+.facts {
+  margin-top: 36px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  max-width: 560px;
+  border-top: 1px solid var(--fg);
+}
+
+.facts > div {
+  padding: 12px 16px 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.facts > div:nth-child(even) {
+  padding-left: 16px;
+  border-left: 1px solid var(--line);
+}
+
+.facts dt {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.facts dd {
+  margin-top: 4px;
+  font-size: 15px;
+}
+
+.monoWrap {
+  justify-self: end;
+  width: min(100%, 560px);
+}
+
+/* ── Fig. 1: same points, two ways of thinking ────────────────────────── */
+
+.model {
+  margin: 0;
+  display: grid;
+  gap: 14px;
+}
+
+.modelCanvas {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  cursor: grab;
+  touch-action: pan-y;
+}
+
+.modelCanvas[data-dragging] {
+  cursor: grabbing;
+}
+
+.modelFoot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+.modelCaption {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--fg-muted);
+}
+
+.modelCaption span {
+  color: var(--fg);
+  margin-right: 8px;
+}
+
+/* A quiet two-way switch; the underline slides to the chosen way. */
+.switch {
+  position: relative;
+  display: flex;
+  gap: 4px;
+  flex: none;
+}
+
+.switch button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  cursor: pointer;
+  transition: color 240ms var(--ease-out);
+}
+
+.switch button:hover,
+.switch button[aria-pressed="true"] {
+  color: var(--fg);
+}
+
+.switch button:last-of-type[aria-pressed="true"] {
+  color: var(--vermilion);
+}
+
+.switchBar {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 50%;
+  height: 1.5px;
+  background: var(--fg);
+  transition: transform 460ms var(--ease-draw), background-color 300ms;
+}
+
+.switch[data-mode="1"] .switchBar {
+  transform: translateX(100%);
+  background: var(--vermilion);
+}
+
+.cross {
+  position: relative;
+  width: 9px;
+  height: 9px;
+}
+
+.cross::before,
+.cross::after {
+  content: "";
+  position: absolute;
+  background: currentColor;
+}
+
+.cross::before {
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1.5px;
+  margin-top: -0.75px;
+}
+
+.cross::after {
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1.5px;
+  margin-left: -0.75px;
+}
+
+.node {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* ── sections ──────────────────────────────────────────────────────────── */
+
+.section {
+  padding-top: clamp(64px, 10vh, 112px);
+}
+
+.sectionHead {
+  padding-top: 24px;
+  border-top: 1px solid var(--fg);
+  margin-bottom: clamp(36px, 6vh, 64px);
+}
+
+.sectionTitle {
+  margin-top: 14px;
+  font-size: clamp(36px, 4.6vw, 72px);
+  font-weight: 500;
+  line-height: 0.98;
+  letter-spacing: -0.032em;
+}
+
+/* ── journey ───────────────────────────────────────────────────────────── */
+
+.journey {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+  gap: clamp(28px, 5vw, 96px);
+  align-items: start;
+}
+
+.panel {
+  position: sticky;
+  top: calc(var(--frame) + 40px + 7vh);
+  display: grid;
+  gap: 10px;
+}
+
+.panelKicker {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+/* The chapter numeral: a drawn serif figure, not a block. */
+.panelNo {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(88px, 9vw, 148px);
+  line-height: 0.82;
+  letter-spacing: 0.02em;
+  color: var(--vermilion);
+  animation: ms-chapter 560ms var(--ease-settle) both;
+}
+
+.panelName {
+  font-size: clamp(24px, 2.2vw, 34px);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  animation: ms-chapter 560ms var(--ease-settle) 60ms both;
+}
+
+@keyframes ms-chapter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.panelNote {
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--fg-muted);
+  max-width: 30ch;
+}
+
+.panelProgress {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.panelDate {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+
+.progTrack {
+  position: relative;
+  display: block;
+  height: 2px;
+  max-width: 320px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.progFill {
+  position: absolute;
+  inset: 0;
+  background: var(--vermilion);
+  transform-origin: left center;
+  transform: scaleX(0);
+  will-change: transform;
+}
+
+.chapters {
+  margin-top: 18px;
+  max-width: 320px;
+  border-top: 1px solid var(--line);
+}
+
+.chapters button {
+  position: relative;
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 14px;
+  text-align: left;
+  color: var(--fg-muted);
+  cursor: pointer;
+  transition: color 220ms var(--ease-out), padding-left 320ms var(--ease-out);
+}
+
+.chapters button span {
+  width: 26px;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 16px;
+  line-height: 1;
+  padding-top: 1px;
+}
+
+.chapters button:hover {
+  color: var(--fg);
+  padding-left: 4px;
+}
+
+.chapters button[aria-current="step"] {
+  color: var(--fg);
+}
+
+.chapters button[aria-current="step"] span {
+  color: var(--vermilion);
+}
+
+.chapters button[aria-current="step"]::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  margin-top: -3px;
+  border-radius: 50%;
+  background: var(--vermilion);
+}
+
+.milestones {
+  position: relative;
+  padding-left: 46px;
+}
+
+.rail,
+.railFill {
+  position: absolute;
+  left: 11px;
+  top: 8px;
+  bottom: 0;
+  width: 1px;
+}
+
+.rail {
+  background: var(--line);
+}
+
+/* The drawn part of the line follows the reader: transform only, no layout. */
+.railFill {
+  width: 1.5px;
+  margin-left: -0.25px;
+  background: var(--fg);
+  transform-origin: top center;
+  transform: scaleY(0);
+  will-change: transform;
+}
+
+.milestone {
+  position: relative;
+  padding: 0 0 clamp(52px, 8vh, 84px);
+}
+
+/* Each entry eases in once, the first time it enters the view. */
+html[data-js] .milestone:not([data-seen]) .meta,
+html[data-js] .milestone:not([data-seen]) .mTitle,
+html[data-js] .milestone:not([data-seen]) .mBody,
+html[data-js] .milestone:not([data-seen]) .tags,
+html[data-js] .milestone:not([data-seen]) .media,
+html[data-js] .milestone:not([data-seen]) .links,
+html[data-js] .milestone:not([data-seen]) .mLink {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+.meta,
+.mTitle,
+.mBody,
+.tags,
+.media,
+.links,
+.mLink {
+  transition: opacity 640ms var(--ease-out), transform 760ms var(--ease-out);
+}
+
+.mTitle {
+  transition-delay: 60ms;
+}
+
+.mBody {
+  transition-delay: 120ms;
+}
+
+.tags,
+.media,
+.links,
+.mLink {
+  transition-delay: 180ms;
+}
+
+.phaseLabel {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 24px -46px;
+  padding-left: 46px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--vermilion);
+}
+
+.phaseLabel::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, rgb(224 72 42 / 0.4), transparent);
+}
+
+.milestone:not(:first-child) .phaseLabel {
+  padding-top: 8px;
+}
+
+.mark {
+  position: absolute;
+  left: -40px;
+  top: 1px;
+  width: 11px;
+  height: 11px;
+  background: var(--bg);
+  box-shadow: inset 0 0 0 1.5px var(--fg-muted);
+  transform: rotate(45deg);
+  transition: background-color 300ms var(--ease-out), box-shadow 300ms var(--ease-out),
+    transform 420ms var(--ease-settle);
+}
+
+.milestone[data-on] .mark {
+  box-shadow: inset 0 0 0 1.5px var(--fg);
+}
+
+.milestone[data-current] .mark {
+  background: var(--vermilion);
+  box-shadow: 0 0 0 4px var(--bg), 0 0 0 5px var(--vermilion);
+  transform: rotate(45deg) scale(1.15);
+}
+
+/* Phase III points are learned, not drafted: round markers. */
+.milestone[data-phase="learning"] .mark {
+  border-radius: 50%;
+  transform: none;
+}
+
+.milestone[data-phase="learning"][data-current] .mark {
+  transform: scale(1.15);
+}
+
+.meta {
+  position: relative;
+  display: flex;
+  gap: 14px;
+  align-items: baseline;
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.date {
+  color: var(--fg);
+  font-variant-numeric: tabular-nums;
+}
+
+.kind {
+  color: var(--fg-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 10px;
+}
+
+.milestone[data-kind="hackathon"] .kind {
+  color: var(--vermilion);
+}
+
+.mTitle {
+  margin-top: 10px;
+  max-width: 28ch;
+  font-size: clamp(22px, 2vw, 30px);
+  font-weight: 500;
+  line-height: 1.14;
+  letter-spacing: -0.02em;
+  color: var(--fg);
+}
+
+.milestone[data-kind="now"] .mTitle {
+  color: var(--vermilion);
+}
+
+.mBody {
+  margin-top: 12px;
+  max-width: 58ch;
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--fg-muted);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 16px;
+}
+
+.tags span {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 4px 9px;
+  border-radius: 2px;
+  box-shadow: inset 0 0 0 1px var(--line);
+  color: var(--fg-muted);
+  transition: color 200ms, box-shadow 200ms;
+}
+
+.milestone[data-current] .tags span {
+  color: var(--fg);
+  box-shadow: inset 0 0 0 1px rgb(23 23 26 / 0.3);
+}
+
+.mLink {
+  display: inline-block;
+  margin-top: 18px;
+  font-size: 15px;
+  background: linear-gradient(var(--vermilion), var(--vermilion)) 0 100% / 100% 1px no-repeat;
+  padding-bottom: 2px;
+}
+
+.mLink:hover {
+  color: var(--vermilion);
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 40px;
+  padding: 0 14px;
+  box-shadow: inset 0 0 0 1px var(--fg);
+  font-size: 14px;
+  transition: background-color 220ms var(--ease-out), color 220ms var(--ease-out);
+}
+
+.links a:hover,
+.links a:focus-visible {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+/* Hackathon photos: two prints, slightly askew; they straighten on hover. */
+.media {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.media figure {
+  margin: 0;
+  width: min(100%, 300px);
+  padding: 8px 8px 10px;
+  background: #f6f5f0;
+  box-shadow: 0 0 0 1px var(--line), 0 12px 28px -16px rgb(23 23 26 / 0.45);
+  transform: rotate(-1.2deg);
+  transition: transform 520ms var(--ease-settle), box-shadow 320ms var(--ease-out);
+}
+
+.media figure + figure {
+  transform: rotate(1.4deg);
+}
+
+.media figure:hover {
+  transform: rotate(0) translateY(-5px);
+  box-shadow: 0 0 0 1px var(--fg), 0 20px 34px -16px rgb(23 23 26 / 0.5);
+}
+
+.media img {
+  display: block;
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.media figcaption {
+  margin-top: 8px;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--fg-muted);
+}
+
+/* ── principles: three columns of a drafting spec, not boxes ───────────── */
+
+.principles {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid var(--line);
+}
+
+.principles li {
+  position: relative;
+  display: grid;
+  gap: 14px;
+  align-content: start;
+  padding: 28px clamp(18px, 2.4vw, 36px) 32px;
+}
+
+.principles li:first-child {
+  padding-left: 0;
+}
+
+.principles li + li {
+  border-left: 1px solid var(--line);
+}
+
+/* A vermilion rule draws across the top on hover. */
+.principles li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -1px;
+  height: 2px;
+  background: var(--vermilion);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 560ms var(--ease-draw);
+}
+
+.principles li:hover::before {
+  transform: scaleX(1);
+}
+
+.pNo {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 34px;
+  line-height: 1;
+  color: var(--vermilion);
+}
+
+.principles h3 {
+  font-size: clamp(22px, 1.9vw, 28px);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.principles p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--fg-muted);
+  max-width: 34ch;
+}
+
+/* ── cta ───────────────────────────────────────────────────────────────── */
+
+.cta {
+  margin-top: clamp(80px, 12vh, 136px);
+  padding: 48px 0 calc(var(--frame) + var(--strip) + 72px);
+  border-top: 1px solid var(--fg);
+}
+
+.ctaTitle {
+  margin-top: 20px;
+  max-width: 16ch;
+  font-size: clamp(40px, 5.4vw, 88px);
+  font-weight: 500;
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+}
+
+.ctaActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 40px;
+}
+
+.primary,
+.secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 28px;
+  height: clamp(58px, 7.6vh, 70px);
+  padding: 0 26px;
+  font-size: clamp(18px, 1.5vw, 22px);
+  transition: background-color 260ms var(--ease-out), color 260ms var(--ease-out),
+    transform 320ms var(--ease-out), box-shadow 320ms var(--ease-out);
+}
+
+.primary {
+  background: #d63f21;
+  color: var(--paper);
+  font-weight: 500;
+}
+
+.primary svg {
+  width: 28px;
+  height: 12px;
+  transition: transform 420ms var(--ease-draw);
+}
+
+.primary:hover,
+.primary:focus-visible {
+  background: #bd3419;
+  transform: translate(-3px, -3px);
+  box-shadow: 3px 3px 0 var(--line), 6px 6px 0 rgb(23 23 26 / 0.12);
+}
+
+.primary:hover svg {
+  transform: translateX(6px);
+}
+
+.secondary {
+  box-shadow: inset 0 0 0 1.5px var(--fg);
+}
+
+.secondary:hover,
+.secondary:focus-visible {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+/* ── narrow ────────────────────────────────────────────────────────────── */
+
+@media (max-width: 1023px) {
+  .intro {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .monoWrap {
+    justify-self: stretch;
+    width: 100%;
+    max-width: 520px;
+  }
+
+  .journey {
+    grid-template-columns: 1fr;
+  }
+
+  /* The chapter panel becomes a slim sticky bar with a progress rule. */
+  .panel {
+    top: calc(var(--frame) + 40px);
+    z-index: 5;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 2px 14px;
+    padding: 10px 0 0;
+    background: var(--bg);
+  }
+
+  .panelKicker,
+  .panelNote,
+  .chapters {
+    display: none;
+  }
+
+  .panelNo {
+    font-size: 40px;
+  }
+
+  .panelName {
+    font-size: 17px;
+  }
+
+  .panelProgress {
+    display: contents;
+  }
+
+  .panelDate {
+    font-size: 11px;
+  }
+
+  .progTrack {
+    grid-column: 1 / -1;
+    max-width: none;
+    margin-top: 8px;
+  }
+
+  .principles {
+    grid-template-columns: 1fr;
+  }
+
+  .principles li,
+  .principles li:first-child {
+    padding: 24px 0 26px;
+  }
+
+  .principles li + li {
+    border-left: 0;
+    border-top: 1px solid var(--line);
+  }
+}
+
+@media (max-width: 767px) {
+  .sheet {
+    padding-inline: calc(var(--frame) + 12px);
+  }
+
+  .intro {
+    padding-top: 10vh;
+  }
+
+  .title {
+    font-size: clamp(54px, 17vw, 88px);
+  }
+
+  .facts {
+    grid-template-columns: 1fr;
+  }
+
+  .facts > div:nth-child(even) {
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .milestones {
+    padding-left: 34px;
+  }
+
+  .rail,
+  .railFill {
+    left: 6px;
+  }
+
+  .mark {
+    left: -33px;
+  }
+
+  .phaseLabel {
+    margin-left: -34px;
+    padding-left: 34px;
+  }
+
+  .media figure {
+    width: 100%;
+  }
+
+  .modelFoot {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .primary,
+  .secondary {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .cta {
+    padding-bottom: calc(var(--frame) + var(--strip-mobile) + 48px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-js] .milestone:not([data-seen]) .meta,
+  html[data-js] .milestone:not([data-seen]) .mTitle,
+  html[data-js] .milestone:not([data-seen]) .mBody,
+  html[data-js] .milestone:not([data-seen]) .tags,
+  html[data-js] .milestone:not([data-seen]) .media,
+  html[data-js] .milestone:not([data-seen]) .links,
+  html[data-js] .milestone:not([data-seen]) .mLink {
+    opacity: 1;
+    transform: none;
+  }
+}

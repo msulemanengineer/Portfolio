@@ -1,0 +1,211 @@
+@import "tailwindcss";
+
+/*
+ * Palette: paper, ink, graphite — and one red pencil.
+ * Sheets drawn on carbon (Intelligence, Lab) redefine the semantic tokens.
+ */
+:root {
+  --paper: #eceae3;
+  --ink: #17171a;
+  --ink-muted: #55534e;
+  --graphite: #7a7873;
+  --carbon: #131312;
+  --vermilion: #e0482a;
+  /* Cool pole for charts; validated against vermilion on carbon (dataviz validator). */
+  --blueprint: #5a9bd4;
+
+  --bg: var(--paper);
+  --fg: var(--ink);
+  --fg-muted: var(--ink-muted);
+  --line: rgb(23 23 26 / 0.16);
+
+  --frame: 16px;
+  --strip: 48px;
+  --strip-mobile: 44px;
+
+  /* DRAW: things being constructed. SETTLE lives in the engine as a spring. */
+  --ease-draw: cubic-bezier(0.7, 0, 0.2, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  color-scheme: light;
+}
+
+html[data-tone="carbon"] {
+  --bg: var(--carbon);
+  --fg: #e9e6dd;
+  --fg-muted: #a6a39b;
+  --line: rgb(233 230 221 / 0.16);
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-fg: var(--fg);
+  --color-muted: var(--fg-muted);
+  --color-line: var(--line);
+  --color-vermilion: var(--vermilion);
+  --font-sans: var(--font-instrument-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-instrument-serif), ui-serif, Georgia, serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, "SFMono-Regular", monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--bg);
+  color: var(--fg);
+  -webkit-text-size-adjust: 100%;
+  transition: background-color 600ms var(--ease-draw), color 600ms var(--ease-draw);
+}
+
+body {
+  min-height: 100svh;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+/* Paper tooth. Static SVG noise — no animation, no image request. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.35;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.09  0 0 0 0 0.09  0 0 0 0 0.1  0 0 0 0.09 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+html[data-tone="carbon"] body::after {
+  mix-blend-mode: screen;
+  opacity: 0.18;
+}
+
+::selection {
+  background: var(--vermilion);
+  color: var(--paper);
+}
+
+:focus-visible {
+  outline: 1.5px solid var(--vermilion);
+  outline-offset: 4px;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ── intro reveals ─────────────────────────────────────────────────────────
+ * Base styles are always the final state. Elements marked [data-reveal] only
+ * animate while the intro plays; skipping (or reduced motion) shows the end.
+ * If scripts never start, a failsafe reveals everything after 3.5s.
+ */
+html[data-intro="pending"] [data-reveal] {
+  opacity: 0;
+  animation: ms-failsafe 0s 3.5s forwards;
+}
+
+html[data-intro="play"] [data-reveal] {
+  animation: var(--reveal, ms-fade) var(--dur, 700ms) var(--ease-out) var(--d, 0ms) both;
+}
+
+html[data-intro="play"] [data-reveal][style*="ms-draw"] {
+  animation-timing-function: var(--ease-draw);
+}
+
+@keyframes ms-failsafe {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes ms-fade {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes ms-rise {
+  from {
+    transform: translateY(104%);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes ms-draw-x {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes ms-draw-y {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes ms-appear {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ── SETTLE: content arrives like a model converging — a small overshoot. ──
+ * [data-settle] children of an [data-observe] block rise in when it enters view.
+ * --i staggers siblings. Without JS the content is simply there.
+ */
+:root {
+  --ease-settle: cubic-bezier(0.34, 1.32, 0.64, 1);
+}
+
+html[data-js] [data-observe]:not([data-inview]) [data-settle] {
+  opacity: 0;
+  transform: translateY(18px);
+}
+
+html[data-js] [data-observe] [data-settle] {
+  transition: opacity 600ms var(--ease-out), transform 820ms var(--ease-settle);
+  transition-delay: calc(var(--i, 0) * 70ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-js] [data-observe]:not([data-inview]) [data-settle] {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
