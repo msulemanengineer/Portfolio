@@ -18,6 +18,13 @@ export interface Actor {
   main: number[];
 }
 
+export interface Challenge {
+  title: string;
+  problem: string;
+  /** How it was tested or proven, when known. */
+  proof?: string;
+}
+
 export interface SystemSheet {
   id: string;
   no: string;
@@ -35,14 +42,17 @@ export interface SystemSheet {
   built: string[];
   /** As listed on the user's previous portfolio. WebRTC/Socket.io for Telemedline awaits confirmation. */
   stack: string[];
+  /** Hard problems, in Muhammad's own account (2026-10-07). Optional per system. */
+  challenges?: Challenge[];
   image: { src: string; width: number; height: number; alt: string };
 }
 
 export const engineering = {
   intro: {
-    kicker: "Sheet 01 — Written",
+    kicker: "Software Engineer · Endless Invo.",
     title: "Systems that ship.",
-    lede: "A year and a half at Endless Invo., from intern to Associate Software Engineer, building client platforms for healthcare, medical e-learning and luxury mobility — owning features from the interface to the API, and shipping them to production.",
+    lede: "Three production platforms — telemedicine, medical e-learning and luxury mobility — built from the interface to the API.",
+    readout: "Apr 2025 – Sep 2026 · intern → associate · 3 platforms",
     facts: [
       { label: "Company", value: "Endless Invo. · Lahore" },
       { label: "Tenure", value: "Apr 2025 – Sep 2026" },
@@ -59,11 +69,9 @@ export const engineering = {
       end: "2026-09",
       label: "Jun 2025 – Sep 2026",
       points: [
-        "Developed and shipped features for production client applications with React, Next.js, Node.js, Express and MongoDB.",
-        "Owned end-to-end business workflows across healthcare, booking and e-commerce — from UI through API integration to backend functionality.",
-        "Integrated REST APIs, authentication flows, payment services, Google Maps and other third-party services.",
-        "Built and maintained admin dashboards for users, content, orders, bookings, drivers and operations.",
-        "Debugged across the stack, took part in code reviews and technical discussions, and folded in feedback from senior engineers.",
+        "Shipped features end to end on production client platforms — UI, API integration and backend.",
+        "Integrated payments, authentication, Google Maps and other third-party services.",
+        "Built admin dashboards for users, bookings, drivers and operations.",
       ],
     },
     {
@@ -72,9 +80,8 @@ export const engineering = {
       end: "2025-06",
       label: "Apr 2025 – Jun 2025",
       points: [
-        "Built reusable React components and connected them to REST APIs on live client projects.",
-        "Fixed frontend and backend issues under senior developers’ guidance, following the team’s SDLC and Git workflow.",
-        "Took part in daily meetings, feature planning and technical discussions.",
+        "Built reusable React components wired to REST APIs on live client projects.",
+        "Fixed frontend and backend issues inside the team’s SDLC and Git workflow.",
       ],
     },
   ],
@@ -172,6 +179,18 @@ export const engineering = {
       ],
       integrations: ["Moyasar payments", "CME certificates", "Live webinars", "Arabic & English"],
       stack: ["React", "Node.js", "Express.js", "MongoDB"],
+      challenges: [
+        {
+          title: "Certificates for the people who were actually there",
+          problem:
+            "Webinars and conferences end with a certificate, but only for members who attended the session. Issuing certificates when a session ends, to the right attendees and no one else, was one of the hardest problems on the platform.",
+        },
+        {
+          title: "Keeping the host in control of a live session",
+          problem:
+            "During a live webinar the host has to be able to manage the room: remove a participant from the session, or mute people. Building those moderation controls for a live audience was the second hard problem.",
+        },
+      ],
       built: [
         "Specialty catalog",
         "Course search and filters: specialty, level, price",
@@ -223,6 +242,20 @@ export const engineering = {
       ],
       integrations: ["Google Maps", "Stripe", "Coupons", "Live trip tracking"],
       stack: ["React", "Google Maps", "Stripe"],
+      challenges: [
+        {
+          title: "Coupons that change the price",
+          problem:
+            "A coupon module that gives customers a discount when they book. Getting discounts to apply correctly inside the booking flow was one of the problems we had to work through.",
+        },
+        {
+          title: "Driver and customer, live on one map",
+          problem:
+            "Live tracking shows both the driver and the customer on Google Maps for the whole trip, so each always knows where the other is.",
+          proof:
+            "We tested it on real roads: the team took the car keys, booked rides through our own system and drove them, again and again.",
+        },
+      ],
       built: [
         "One-way and hourly booking",
         "Pickup and drop-off with Google Maps",
@@ -280,6 +313,7 @@ export const engineering = {
   cta: {
     kicker: "Where this goes next",
     title: "Now I’m bringing these systems to machine learning.",
+    short: "Next: these systems, made intelligent.",
     body: "The same habits — clear architecture, APIs that hold up, honest testing — applied to recommenders, NLP, embeddings and RAG.",
     primary: "See the AI & ML work",
     resume: "Engineering résumé",

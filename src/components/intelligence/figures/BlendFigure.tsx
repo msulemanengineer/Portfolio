@@ -1,4 +1,3 @@
-import { intelligence } from "@/content/intelligence";
 import s from "./figures.module.css";
 
 /**
@@ -60,31 +59,6 @@ export function BlendFigure() {
       </div>
       <p className={s.blendFormula}>= overall match, shown with its formula — never a bare number</p>
 
-      <table className={s.kvm}>
-        <caption>Why keywords alone fail</caption>
-        <thead>
-          <tr>
-            <th scope="col">Job says</th>
-            <th scope="col">Resume says</th>
-            <th scope="col">Keywords</th>
-            <th scope="col">Meaning</th>
-          </tr>
-        </thead>
-        <tbody>
-          {intelligence.keywordVsMeaning.map(([job, cv]) => (
-            <tr key={job}>
-              <td>“{job}”</td>
-              <td>“{cv}”</td>
-              <td className={s.no}>
-                <span aria-hidden="true">✕</span> no match
-              </td>
-              <td className={s.yes}>
-                <span aria-hidden="true">✓</span> same
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
     </div>
   );
 }

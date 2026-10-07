@@ -3,7 +3,7 @@
 .sheet {
   --pad: clamp(20px, 4.2vw, 76px);
   padding: calc(var(--frame) + 40px) calc(var(--frame) + var(--pad)) 0;
-  background-image: radial-gradient(circle, rgb(23 23 26 / 0.16) 1px, transparent 1.2px);
+  background-image: radial-gradient(circle, rgb(233 230 221 / 0.08) 1px, transparent 1.2px);
   background-size: 34px 34px;
   background-position: calc(var(--frame) + 14px) calc(var(--frame) + 40px);
 }
@@ -115,7 +115,7 @@
   gap: 18px;
   height: 56px;
   padding: 0 22px;
-  background: #d63f21;
+  background: #bd3419;
   color: var(--paper);
   font-size: 17px;
   font-weight: 500;
@@ -124,9 +124,9 @@
 
 .live:hover,
 .live:focus-visible {
-  background: #bd3419;
+  background: #a92d14;
   transform: translate(-3px, -3px);
-  box-shadow: 3px 3px 0 var(--line), 6px 6px 0 rgb(23 23 26 / 0.12);
+  box-shadow: 3px 3px 0 var(--line), 6px 6px 0 rgb(0 0 0 / 0.35);
 }
 
 .shot {
@@ -698,4 +698,102 @@
 .offline b {
   color: var(--fg);
   font-weight: 500;
+}
+
+/* ── the hard parts ────────────────────────────────────────────────────── */
+
+.challenges {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid var(--fg);
+  background: var(--bg);
+}
+
+.challenges li {
+  position: relative;
+  display: grid;
+  gap: 14px;
+  align-content: start;
+  padding: 30px clamp(18px, 2.6vw, 40px) 34px 0;
+}
+
+.challenges li + li {
+  padding-left: clamp(18px, 2.6vw, 40px);
+  border-left: 1px solid var(--line);
+}
+
+.challenges li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -1px;
+  height: 2px;
+  background: var(--vermilion);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 560ms var(--ease-draw);
+}
+
+.challenges li:hover::before {
+  transform: scaleX(1);
+}
+
+.chNo {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--vermilion);
+}
+
+.chTitle {
+  font-size: clamp(24px, 2.2vw, 34px);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  max-width: 20ch;
+}
+
+.chBody {
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--fg-muted);
+  max-width: 48ch;
+}
+
+.chProof {
+  display: grid;
+  gap: 6px;
+  margin-top: 6px;
+  padding: 16px 18px;
+  border-left: 2px solid var(--vermilion);
+  background: rgb(224 72 42 / 0.06);
+  font-size: 16px;
+  line-height: 1.55;
+  max-width: 48ch;
+}
+
+.chProof span {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--vermilion);
+}
+
+@media (max-width: 767px) {
+  .challenges {
+    grid-template-columns: 1fr;
+  }
+
+  .challenges li,
+  .challenges li + li {
+    padding: 24px 0 26px;
+    border-left: 0;
+  }
+
+  .challenges li + li {
+    border-top: 1px solid var(--line);
+  }
 }

@@ -100,7 +100,7 @@ export function ProjectExplorer({ systems }: { systems: readonly SystemSheet[] }
           <p className={s.caption} aria-live="polite">
             <strong>{actor.name}</strong> — {actor.does}
           </p>
-          <Link href={`/work/${sys.id}`} className={s.caseLink} aria-label={`Read the ${sys.name} case study`}>
+          <Link href={`/work/${sys.id}`} className={s.caseLink}>
             Read the case study
             <svg viewBox="0 0 28 12" aria-hidden="true">
               <path d="M0 6h26M21 1l5 5-5 5" fill="none" stroke="currentColor" strokeWidth="1.6" />

@@ -18,8 +18,6 @@ export const T = {
   end: 4300,
 } as const;
 
-export const INTRO_SEEN_KEY = "ms:origin-seen";
-export const EXIT_KEY = "ms:origin-exit";
 
 /** CSS custom properties for an element revealed at `delay` ms. */
 export function reveal(
@@ -36,7 +34,7 @@ export function reveal(
 }
 
 /**
- * Runs before first paint (inlined in <head>). Decides whether the intro plays:
- * only on a first visit to "/" this session, and never with reduced motion.
+ * Runs before first paint (inlined in <head>): flags that JS is on, so
+ * scroll-in reveals may hide content until it is observed.
  */
-export const BOOT_SCRIPT = `(function(){var d=document.documentElement;d.dataset.js='1';try{var rm=window.matchMedia('(prefers-reduced-motion: reduce)').matches;var seen=window.sessionStorage.getItem('${INTRO_SEEN_KEY}');d.dataset.intro=(!rm&&!seen&&location.pathname==='/')?'pending':'done';}catch(e){d.dataset.intro='done';}})();`;
+export const BOOT_SCRIPT = `(function(){var d=document.documentElement;d.dataset.js='1';d.dataset.intro='done';})();`;

@@ -14,11 +14,11 @@ export interface Sheet {
 }
 
 export const sheets: readonly Sheet[] = [
-  { id: "origin", no: "00", href: "/", label: "Origin", code: "Origin", tone: "paper" },
-  { id: "engineering", no: "01", href: "/engineering", label: "Engineering", code: "Written", tone: "paper" },
+  { id: "origin", no: "00", href: "/", label: "Origin", code: "Origin", tone: "carbon" },
+  { id: "engineering", no: "01", href: "/engineering", label: "Engineering", code: "Written", tone: "carbon" },
   { id: "intelligence", no: "02", href: "/intelligence", label: "Intelligence", code: "Learned", tone: "carbon" },
   { id: "lab", no: "03", href: "/lab", label: "Lab", code: "Scratch", tone: "carbon" },
-  { id: "about", no: "04", href: "/about", label: "About", code: "Margin", tone: "paper" },
+  { id: "about", no: "04", href: "/about", label: "About", code: "Margin", tone: "carbon" },
 ];
 
 const contactSheet: Sheet = {
@@ -27,7 +27,7 @@ const contactSheet: Sheet = {
   href: "/contact",
   label: "Contact",
   code: "Title block",
-  tone: "paper",
+  tone: "carbon",
 };
 
 export const lastSheetNo = sheets[sheets.length - 1].no;

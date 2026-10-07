@@ -27,7 +27,6 @@ function Word({ word }: { word: string }) {
  */
 export function WeightsFigure() {
   const rows = data.weights.positive.map((p, i) => [data.weights.negative[i], p] as const);
-  const { tn, fp, fn, tp } = data.confusion;
 
   return (
     <div className={s.sentiment}>
@@ -35,17 +34,17 @@ export function WeightsFigure() {
         <div>
           <dt>Accuracy</dt>
           <dd>{pct(data.accuracy)}</dd>
-          <p>on {data.testRows} unseen reviews</p>
+          <dd className={s.statNote}>on {data.testRows} unseen reviews</dd>
         </div>
         <div>
           <dt>Macro F1</dt>
           <dd>{data.f1Macro.toFixed(3)}</dd>
-          <p>both classes weighted equally</p>
+          <dd className={s.statNote}>both classes weighted equally</dd>
         </div>
         <div>
           <dt>ROC-AUC</dt>
           <dd>{data.rocAuc.toFixed(3)}</dd>
-          <p>ranking quality</p>
+          <dd className={s.statNote}>ranking quality</dd>
         </div>
         <div>
           <dt>Cross-validation</dt>
@@ -53,7 +52,7 @@ export function WeightsFigure() {
             {data.cvMean.toFixed(3)}
             <small> ± {data.cvStd.toFixed(3)}</small>
           </dd>
-          <p>training set, agrees with test</p>
+          <dd className={s.statNote}>training set, agrees with test</dd>
         </div>
       </dl>
 
@@ -101,40 +100,6 @@ export function WeightsFigure() {
         </tbody>
       </table>
 
-      <div className={s.confusion}>
-        <p className={s.confTitle}>Where the {fp + fn} mistakes are</p>
-        <table className={s.matrix}>
-          <thead>
-            <tr>
-              <td />
-              <th scope="col">Called negative</th>
-              <th scope="col">Called positive</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">Negative</th>
-              <td className={s.hitCell}>{tn}</td>
-              <td className={s.missCell}>
-                {fp}
-                <span>false positive</span>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">Positive</th>
-              <td className={s.missCell}>
-                {fn}
-                <span>false negative</span>
-              </td>
-              <td className={s.hitCell}>{tp}</td>
-            </tr>
-          </tbody>
-        </table>
-        <p className={s.confNote}>
-          Errors split 53 / 54 — not biased toward either sentiment. Train accuracy is{" "}
-          {data.trainAccuracy.toFixed(3)}; the gap is owned in the README, not hidden.
-        </p>
-      </div>
     </div>
   );
 }

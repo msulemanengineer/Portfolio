@@ -189,7 +189,24 @@ html[data-js] [data-observe] [data-settle] {
   transition-delay: calc(var(--i, 0) * 70ms);
 }
 
+/* Eager (first-screen) blocks: painted immediately, eased in by CSS — no wait for JS. */
+[data-eager] [data-settle] {
+  animation: settle-in 700ms var(--ease-settle) calc(var(--i, 0) * 60ms) both;
+  transition: none;
+}
+
+@keyframes settle-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  [data-eager] [data-settle] {
+    animation: none;
+  }
+
   html[data-js] [data-observe]:not([data-inview]) [data-settle] {
     opacity: 1;
     transform: none;

@@ -37,7 +37,7 @@ function stretchKeyword(value: string): CanvasFontStretch {
  * Canvas width is fitted to the DOM width, so browsers that lack
  * `ctx.fontStretch` / `ctx.letterSpacing` still line up.
  */
-export function sampleName(nameEl: HTMLElement, root: HTMLElement): NameDots | null {
+export function sampleName(nameEl: HTMLElement, root: HTMLElement, density = 34): NameDots | null {
   const lines = Array.from(nameEl.querySelectorAll<HTMLElement>("[data-name-line]")).filter(
     (el) => el.getBoundingClientRect().width > 1,
   );
@@ -93,7 +93,7 @@ export function sampleName(nameEl: HTMLElement, root: HTMLElement): NameDots | n
   const h = Math.min(H - y0, Math.ceil(maxY - minY) + 2);
   const data = ctx.getImageData(x0, y0, w, h).data;
 
-  const step = Math.max(2.2, fontSize / 34);
+  const step = Math.max(2.2, fontSize / density);
   const rand = mulberry32(1931);
   const xs: number[] = [];
   const ys: number[] = [];

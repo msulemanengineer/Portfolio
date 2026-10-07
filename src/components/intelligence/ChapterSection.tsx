@@ -11,7 +11,7 @@ interface ChapterSectionProps {
   caption: string;
 }
 
-/** One project, read as a chapter: question → idea → how → decisions → limits. */
+/** One project, read as a chapter: question → idea → how → its honest limit. */
 export function ChapterSection({ chapter: c, figure, caption }: ChapterSectionProps) {
   return (
     <section id={c.id} className={s.chapter} aria-labelledby={`${c.id}-title`}>
@@ -43,25 +43,12 @@ export function ChapterSection({ chapter: c, figure, caption }: ChapterSectionPr
             </ol>
           </div>
 
-          <div className={s.block} data-settle="" style={i(2)}>
-            <h3>Decisions</h3>
-            <ul className={s.list}>
-              {c.decisions.map((d) => (
-                <li key={d}>{d}</li>
-              ))}
-            </ul>
-          </div>
+          <p className={s.limitLine} data-settle="" style={i(2)}>
+            <span>Limit</span>
+            {c.limits[0]}
+          </p>
 
-          <div className={s.block} data-settle="" style={i(3)}>
-            <h3>Limits, stated plainly</h3>
-            <ul className={s.list} data-kind="limits">
-              {c.limits.map((l) => (
-                <li key={l}>{l}</li>
-              ))}
-            </ul>
-          </div>
-
-          <div className={s.meta} data-settle="" style={i(4)}>
+          <div className={s.meta} data-settle="" style={i(3)}>
             <p className={s.stack}>{c.stack.join(" · ")}</p>
             <a href={c.repo} target="_blank" rel="noreferrer" className={s.repo}>
               Read the code on GitHub <span aria-hidden="true">↗</span>

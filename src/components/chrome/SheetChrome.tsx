@@ -50,7 +50,7 @@ export function SheetChrome({ children }: { children: ReactNode }) {
       <div className={s.frame} aria-hidden="true" data-reveal style={reveal(T.frame, "appear", 500)} />
 
       <header className={s.top} data-reveal style={reveal(T.frame + 100, "appear", 500)}>
-        <Link href="/" className={s.sheetLabel} aria-label={`Sheet ${sheet.no}, ${sheet.label}. Go to origin`}>
+        <Link href="/" className={s.sheetLabel}>
           <span className={s.sheetNo}>Sheet {sheet.no}</span>
           <span className={s.sheetCode}>{sheet.code}</span>
         </Link>

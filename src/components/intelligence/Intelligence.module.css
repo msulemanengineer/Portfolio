@@ -5,6 +5,8 @@
 
 .sheet {
   --pad: clamp(20px, 4.2vw, 76px);
+  /* Type option C: Newsreader, upright, for every serif role on this sheet. */
+  --font-serif: var(--font-newsreader), Georgia, serif;
   padding: calc(var(--frame) + 40px) calc(var(--frame) + var(--pad)) 0;
 }
 
@@ -41,7 +43,7 @@
   position: relative;
   margin-top: 18px;
   font-family: var(--font-serif);
-  font-style: italic;
+  font-style: normal;
   font-weight: 400;
   font-size: clamp(52px, 8vw, 136px);
   line-height: 0.92;
@@ -89,7 +91,7 @@
 
 .stepVerb {
   font-family: var(--font-serif);
-  font-style: italic;
+  font-style: normal;
   font-size: clamp(28px, 2.6vw, 40px);
   line-height: 1;
   transition: color 220ms var(--ease-out);
@@ -108,14 +110,14 @@
 /* ── chapters ──────────────────────────────────────────────────────────── */
 
 .chapter {
-  padding-top: clamp(96px, 15vh, 168px);
+  padding-top: clamp(64px, 9vh, 104px);
   scroll-margin-top: calc(var(--frame) + 40px);
 }
 
 .chapterHead {
   padding-top: 28px;
   border-top: 1px solid var(--line);
-  margin-bottom: clamp(36px, 6vh, 64px);
+  margin-bottom: clamp(24px, 4vh, 40px);
 }
 
 .chapterNo {
@@ -149,7 +151,7 @@
   margin-top: 18px;
   max-width: 34ch;
   font-family: var(--font-serif);
-  font-style: italic;
+  font-style: normal;
   font-size: clamp(22px, 2.1vw, 32px);
   line-height: 1.18;
   color: var(--fg-muted);
@@ -175,7 +177,7 @@
 }
 
 .block h3 {
-  margin: 38px 0 14px;
+  margin: 28px 0 12px;
   font-family: var(--font-mono);
   font-size: 10.5px;
   font-weight: 500;
@@ -228,7 +230,7 @@
 }
 
 .meta {
-  margin-top: 40px;
+  margin-top: 28px;
   padding-top: 16px;
   border-top: 1px solid var(--line);
   display: grid;
@@ -277,7 +279,7 @@
 /* ── foundations ───────────────────────────────────────────────────────── */
 
 .foundations {
-  padding-top: clamp(120px, 18vh, 200px);
+  padding-top: clamp(80px, 12vh, 136px);
   display: grid;
   grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
   gap: 32px clamp(32px, 4.5vw, 80px);
@@ -291,7 +293,7 @@
 .sectionTitle {
   margin-top: 20px;
   font-family: var(--font-serif);
-  font-style: italic;
+  font-style: normal;
   font-weight: 400;
   font-size: clamp(40px, 4.6vw, 76px);
   line-height: 0.96;
@@ -409,7 +411,7 @@
   margin-top: 22px;
   max-width: 17ch;
   font-family: var(--font-serif);
-  font-style: italic;
+  font-style: normal;
   font-weight: 400;
   font-size: clamp(40px, 5.6vw, 96px);
   line-height: 0.98;
@@ -442,16 +444,16 @@
 }
 
 .primary {
-  background: #d63f21;
+  background: #bd3419;
   color: var(--paper);
   font-family: var(--font-serif);
-  font-style: italic;
+  font-style: normal;
   font-size: clamp(22px, 1.9vw, 28px);
 }
 
 .primary:hover,
 .primary:focus-visible {
-  background: #bd3419;
+  background: #a92d14;
   transform: translate(-3px, -3px);
   box-shadow: 3px 3px 0 var(--line), 6px 6px 0 rgb(233 230 221 / 0.08);
 }
@@ -575,4 +577,25 @@
   .cta {
     padding-bottom: calc(var(--frame) + var(--strip-mobile) + 48px);
   }
+}
+
+/* One honest limit per project, set apart. */
+.limitLine {
+  display: grid;
+  gap: 6px;
+  margin-top: 30px;
+  padding: 14px 16px;
+  border-left: 2px solid var(--vermilion);
+  background: rgb(224 72 42 / 0.06);
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--fg);
+}
+
+.limitLine span {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--vermilion);
 }

@@ -17,7 +17,7 @@ interface CaseStudyProps {
 export function CaseStudy({ sys, next }: CaseStudyProps) {
   return (
     <article className={s.sheet} aria-labelledby="case-title">
-      <InView as="header" className={s.hero}>
+      <InView as="header" className={s.hero} eager>
         <nav className={s.crumbs} aria-label="Breadcrumb" data-settle="">
           <Link href={`/engineering#${sys.id}`}>← Engineering</Link>
           <span>Case study {sys.no}</span>
@@ -113,6 +113,34 @@ export function CaseStudy({ sys, next }: CaseStudyProps) {
           ))}
         </ul>
       </InView>
+
+      {sys.challenges && sys.challenges.length > 0 && (
+        <InView as="section" className={s.section} aria-labelledby="hard-title">
+          <header className={s.sectionHead}>
+            <p className={s.kicker} data-settle="">
+              The hard parts
+            </p>
+            <h2 id="hard-title" className={s.sectionTitle} data-settle="" style={i(1)}>
+              What took the most work
+            </h2>
+          </header>
+          <ol className={s.challenges}>
+            {sys.challenges.map((c, k) => (
+              <li key={c.title} data-settle="" style={i(k + 2)}>
+                <span className={s.chNo}>Problem {String(k + 1).padStart(2, "0")}</span>
+                <h3 className={s.chTitle}>{c.title}</h3>
+                <p className={s.chBody}>{c.problem}</p>
+                {c.proof && (
+                  <p className={s.chProof}>
+                    <span>How we tested it</span>
+                    {c.proof}
+                  </p>
+                )}
+              </li>
+            ))}
+          </ol>
+        </InView>
+      )}
 
       <CaseSystem sys={sys} />
 

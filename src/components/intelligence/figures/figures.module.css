@@ -10,7 +10,7 @@
 .confTitle,
 .confNote,
 .blendFormula,
-.stats p,
+.statNote,
 .stats dt,
 .weights caption,
 .kvm caption {
@@ -52,7 +52,7 @@
 .theta {
   fill: var(--fg);
   font-family: var(--font-serif);
-  font-style: italic;
+  font-style: normal;
   font-size: 20px;
 }
 
@@ -152,7 +152,7 @@
 .cosVerdict {
   grid-column: 1 / -1;
   font-family: var(--font-serif);
-  font-style: italic;
+  font-style: normal;
   font-size: 20px;
 }
 
@@ -206,8 +206,10 @@
   letter-spacing: 0;
 }
 
-.stats p {
+.stats dd.statNote {
+  margin: 0;
   font-size: 10.5px;
+  letter-spacing: 0;
   line-height: 1.4;
   color: var(--fg-muted);
 }
@@ -683,7 +685,7 @@ html[data-js] [data-observe]:not([data-inview]) .segSkill {
 
 .outcome[data-tone="refuse"] .outcomeName {
   font-family: var(--font-serif);
-  font-style: italic;
+  font-style: normal;
   font-size: 17px;
 }
 

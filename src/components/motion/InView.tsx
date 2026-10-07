@@ -9,6 +9,8 @@ interface InViewProps {
   /** Fraction of the element that must be visible before it settles in. */
   threshold?: number;
   id?: string;
+  /** First-screen content: never hidden waiting for JS; it animates in with CSS on load. */
+  eager?: boolean;
 }
 
 /**
@@ -16,12 +18,12 @@ interface InViewProps {
  * All motion is CSS keyed off that attribute (see globals.css, [data-settle]),
  * so content is fully visible without JS and under reduced motion.
  */
-export function InView({ as: Tag = "div", className, children, threshold = 0.18, id }: InViewProps) {
+export function InView({ as: Tag = "div", className, children, threshold = 0.18, id, eager = false }: InViewProps) {
   const ref = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const el = ref.current;
-    if (!el) return;
+    if (!el || eager) return;
     if (!("IntersectionObserver" in window)) {
       el.dataset.inview = "";
       return;
@@ -38,10 +40,17 @@ export function InView({ as: Tag = "div", className, children, threshold = 0.18,
     );
     io.observe(el);
     return () => io.disconnect();
-  }, [threshold]);
+  }, [threshold, eager]);
 
   return (
-    <Tag ref={ref} className={className} id={id} data-observe="">
+    <Tag
+      ref={ref}
+      className={className}
+      id={id}
+      data-observe=""
+      data-inview={eager ? "" : undefined}
+      data-eager={eager ? "" : undefined}
+    >
       {children}
     </Tag>
   );

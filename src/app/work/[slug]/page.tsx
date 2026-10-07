@@ -19,6 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!sys) return { title: "Case study" };
   return {
     title: `${sys.name} — Case study`,
+    alternates: { canonical: `/work/${sys.id}` },
     description: `${sys.summary} My role: ${sys.roleNote.toLowerCase()}, at Endless Invo.`,
   };
 }

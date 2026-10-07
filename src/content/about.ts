@@ -27,9 +27,10 @@ export interface Milestone {
 
 export const about = {
   intro: {
-    kicker: "Sheet 04 — Margin",
+    kicker: "Who I am",
     title: "Notes from the margin.",
-    lede: "I’m Muhammad Suleman — a software engineer with a strong Computer Science foundation from COMSATS University Islamabad, now building toward AI engineering. These are the notes in the margin: how I got here, in order.",
+    lede: "I’m Muhammad Suleman — a software engineer with a strong Computer Science foundation from COMSATS University Islamabad, now building toward AI engineering.",
+    readout: "Lahore · COMSATS · Endless Invo. 2025–26 · open to AI engineering roles",
     facts: [
       { label: "Based in", value: identity.location.replace("PK", "Pakistan") },
       { label: "Foundation", value: "BS Computer Science, COMSATS" },

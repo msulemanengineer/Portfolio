@@ -9,7 +9,7 @@ const i = (n: number) => ({ "--i": n }) as CSSProperties;
 export function Intro() {
   const { intro, chapters } = intelligence;
   return (
-    <InView as="header" className={s.intro}>
+    <InView as="header" className={s.intro} eager>
       <IntroField />
       <p className={s.kicker} data-settle="">
         {intro.kicker}

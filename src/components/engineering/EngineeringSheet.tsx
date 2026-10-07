@@ -9,72 +9,68 @@ import { SystemField } from "./SystemField";
 import s from "./Engineering.module.css";
 
 const i = (n: number) => ({ "--i": n }) as CSSProperties;
+const d = (ms: number) => ({ "--d": `${ms}ms` }) as CSSProperties;
 
-function Intro() {
-  const { intro } = engineering;
+const Arrow = () => (
+  <svg viewBox="0 0 28 12" aria-hidden="true">
+    <path d="M0 6h26M21 1l5 5-5 5" fill="none" stroke="currentColor" strokeWidth="1.6" />
+  </svg>
+);
+
+/** A dark stage like the Origin — but the hero is a live system, not a name. */
+function Hero() {
+  const { intro, cta } = engineering;
   return (
-    <InView as="header" className={s.intro}>
-      <div className={s.introText}>
-        <p className={s.kicker} data-settle="">
-          {intro.kicker}
+    <header className={s.hero}>
+      <div className={s.glow} aria-hidden="true" />
+      <div className={s.heroText}>
+        <p className={s.kicker} style={d(100)}>
+          <span className={s.rule} /> {intro.kicker}
         </p>
-        <h1 className={s.title} data-settle="" style={i(1)}>
-          {intro.title}
+        <h1 className={s.title}>
+          <span className={s.line}>
+            <span style={d(200)}>Systems</span>
+          </span>
+          <span className={s.line}>
+            <span style={d(320)}>that ship.</span>
+          </span>
         </h1>
-        <p className={s.lede} data-settle="" style={i(2)}>
+        <p className={s.lede} style={d(350)}>
           {intro.lede}
         </p>
-        <dl className={s.facts} data-settle="" style={i(3)}>
-          {intro.facts.map((f) => (
-            <div key={f.label}>
-              <dt>{f.label}</dt>
-              <dd>{f.value}</dd>
-            </div>
-          ))}
-        </dl>
+        <div className={s.ctas} style={d(450)}>
+          <a href="#platforms" className={s.primary}>
+            See the platforms
+            <Arrow />
+          </a>
+          <a href={cta.resumeHref} target="_blank" rel="noreferrer" download="" className={s.secondary}>
+            {cta.resume} ↓
+          </a>
+        </div>
       </div>
-      <div className={s.introFigure} aria-hidden="false">
+
+      <figure className={s.heroFigure} style={d(400)}>
         <SystemField />
-        <p className={s.introCaption}>The shape the platforms below share — hover a part.</p>
-      </div>
-    </InView>
+        <figcaption>Fig. 1 — the shape all three platforms share. Live, simulated traffic; hover a part.</figcaption>
+      </figure>
+
+      <p className={s.readout} style={d(1000)} aria-hidden="true">
+        {intro.readout}
+      </p>
+    </header>
   );
 }
 
-function Record() {
+function Platforms() {
   return (
-    <section className={s.record} aria-labelledby="record-title">
-      <InView className={s.sectionHead}>
+    <section id="platforms" className={s.section} aria-labelledby="platforms-title">
+      <InView className={s.head}>
         <p className={s.kicker} data-settle="">
-          01 — The record
+          01 — Platforms
         </p>
-        <h2 id="record-title" className={s.sectionTitle} data-settle="" style={i(1)}>
-          Endless Invo., Lahore
+        <h2 id="platforms-title" className={s.sectionTitle} data-settle="" style={i(1)}>
+          Three in production.
         </h2>
-        <p className={s.sectionLede} data-settle="" style={i(2)}>
-          Drawn to scale. Pick a role to read it.
-        </p>
-      </InView>
-      <InView threshold={0.25}>
-        <RoleTimeline />
-      </InView>
-    </section>
-  );
-}
-
-function Systems() {
-  return (
-    <section className={s.systems} aria-labelledby="systems-title">
-      <InView className={s.sectionHead}>
-        <p className={s.kicker} data-settle="">
-          02 — The systems
-        </p>
-        <h2 id="systems-title" className={s.sectionTitle} data-settle="" style={i(1)}>
-          Three platforms, in production
-        </h2>
-        <p className={s.sectionLede} data-settle="" style={i(2)}>
-          Client work at Endless Invo. Switch platforms, then pick a user to trace their path.
-        </p>
       </InView>
       <InView threshold={0.1}>
         <ProjectExplorer systems={engineering.systems} />
@@ -83,83 +79,66 @@ function Systems() {
   );
 }
 
-function Capabilities() {
-  const { toolkit, education, certifications } = engineering;
+function Record() {
   return (
-    <section className={s.capabilities} aria-labelledby="toolkit-title">
-      <InView className={s.sectionHead}>
+    <section className={s.section} aria-labelledby="record-title">
+      <InView className={s.head}>
         <p className={s.kicker} data-settle="">
-          03 — The toolkit
+          02 — Record
         </p>
-        <h2 id="toolkit-title" className={s.sectionTitle} data-settle="" style={i(1)}>
-          What I build with
+        <h2 id="record-title" className={s.sectionTitle} data-settle="" style={i(1)}>
+          Endless Invo., Lahore.
         </h2>
       </InView>
-      <InView as="dl" className={s.toolkit}>
-        {toolkit.map((t, k) => (
-          <div key={t.area} className={s.toolRow} data-settle="" style={i(k)}>
-            <dt>{t.area}</dt>
-            <dd>{t.items.join(" · ")}</dd>
-          </div>
-        ))}
-      </InView>
-      <InView className={s.learning}>
-        <div data-settle="">
-          <p className={s.blockLabel}>Education</p>
-          <p className={s.eduDegree}>{education.degree}</p>
-          <p className={s.eduSchool}>{education.school}</p>
-          <p className={s.eduFocus}>{education.focus}</p>
-        </div>
-        <div data-settle="" style={i(1)}>
-          <p className={s.blockLabel}>Certifications</p>
-          <ul className={s.certs}>
-            {certifications.map((c) => (
-              <li key={c.name}>
-                <span className={s.certDate}>{c.date}</span>
-                <span>
-                  {c.name} <em>{c.issuer}</em>
-                </span>
-                {c.href ? (
-                  <a href={c.href} target="_blank" rel="noreferrer" aria-label={`Verify ${c.name}`}>
-                    Verify ↗
-                  </a>
-                ) : (
-                  <span />
-                )}
-              </li>
-            ))}
-          </ul>
-        </div>
+      <InView threshold={0.25}>
+        <RoleTimeline />
       </InView>
     </section>
   );
 }
 
-function Cta() {
+function Stack() {
+  const groups = engineering.toolkit.filter((t) => t.area !== "Practice");
+  return (
+    <section className={s.section} aria-labelledby="stack-title">
+      <InView className={s.head}>
+        <p className={s.kicker} data-settle="">
+          03 — Stack
+        </p>
+        <h2 id="stack-title" className={s.sectionTitle} data-settle="" style={i(1)}>
+          What I build with.
+        </h2>
+      </InView>
+      <InView as="dl" className={s.stack}>
+        {groups.map((g, k) => (
+          <div key={g.area} data-settle="" style={i(k)}>
+            <dt>{g.area}</dt>
+            <dd>
+              {g.items.map((it) => (
+                <span key={it}>{it}</span>
+              ))}
+            </dd>
+          </div>
+        ))}
+      </InView>
+    </section>
+  );
+}
+
+function Next() {
   const { cta } = engineering;
   return (
-    <InView as="section" className={s.cta}>
-      <p className={s.kicker} data-settle="">
-        {cta.kicker}
-      </p>
-      <h2 className={s.ctaTitle} data-settle="" style={i(1)}>
-        {cta.title}
+    <InView as="section" className={s.next}>
+      <h2 className={s.nextTitle} data-settle="">
+        {cta.short}
       </h2>
-      <p className={s.ctaBody} data-settle="" style={i(2)}>
-        {cta.body}
-      </p>
-      <div className={s.ctaActions} data-settle="" style={i(3)}>
+      <div className={s.ctas} data-settle="" style={i(1)}>
         <Link href="/intelligence" className={s.primary}>
           {cta.primary}
-          <svg viewBox="0 0 28 12" aria-hidden="true">
-            <path d="M0 6h26M21 1l5 5-5 5" fill="none" stroke="currentColor" strokeWidth="1.6" />
-          </svg>
+          <Arrow />
         </Link>
-        <a href={cta.resumeHref} target="_blank" rel="noreferrer" download="" className={s.secondary}>
-          {cta.resume} ↓
-        </a>
-        <a href={`mailto:${identity.email}`} className={s.tertiary}>
-          {identity.email}
+        <a href={`mailto:${identity.email}`} className={s.secondary}>
+          Email me
         </a>
       </div>
     </InView>
@@ -170,11 +149,11 @@ function Cta() {
 export function EngineeringSheet() {
   return (
     <div className={s.sheet}>
-      <Intro />
+      <Hero />
+      <Platforms />
       <Record />
-      <Systems />
-      <Capabilities />
-      <Cta />
+      <Stack />
+      <Next />
     </div>
   );
 }
