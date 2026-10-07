@@ -5,6 +5,8 @@ export const alt = "Muhammad Suleman — AI/ML Engineer";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
+export const dynamic = "force-static";
+
 export default function OpengraphImage() {
   // A field of points, drawn deterministically, echoing the particle hero.
   const dots: Array<[number, number, number]> = [];

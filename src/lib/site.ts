@@ -2,9 +2,9 @@ import { identity } from "@/content/identity";
 
 /**
  * The public address of the site. Set NEXT_PUBLIC_SITE_URL when deploying
- * (e.g. https://msuleman.dev). The fallback is the expected Vercel address.
+ * (e.g. https://msuleman.dev). The fallback is the current Netlify address; change it when a custom domain is live.
  */
-export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://msulemanengineer.vercel.app").replace(/\/$/, "");
+export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://msulemanengineer.netlify.app").replace(/\/$/, "");
 
 export const SITE_TITLE = `${identity.name} — AI/ML Engineer`;
 export const SITE_DESCRIPTION =
