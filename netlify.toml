@@ -1,0 +1,7 @@
+# Used when the site is deployed from Git. For a manual deploy, upload the out/ folder.
+[build]
+  command = "npm run build"
+  publish = "out"
+
+[build.environment]
+  NODE_VERSION = "22"

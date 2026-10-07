@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, type RefObject } from "react";
 import { sampleName } from "@/lib/origin/name-sampler";
+import { LOADER_MS } from "@/lib/origin/timeline";
 import s from "./Origin.module.css";
 
 const PAPER = "236, 234, 227";
@@ -195,7 +196,8 @@ export function ParticleName({ rootRef, nameRef, errorRef, countRef }: Props) {
       kick();
     });
     document.fonts.ready.then(() => {
-      born = performance.now();
+      // If the start loader is covering the page, assemble the name as it lifts.
+      born = performance.now() + (document.documentElement.dataset.loader === "on" ? LOADER_MS - 500 : 0);
       builtW = root.getBoundingClientRect().width;
       build(true);
       kick();

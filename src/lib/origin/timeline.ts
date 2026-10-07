@@ -33,8 +33,11 @@ export function reveal(
   return style;
 }
 
+/** How long the start loader covers the page, in ms. Mirrors the CSS in globals.css. */
+export const LOADER_MS = 1800;
+
 /**
- * Runs before first paint (inlined in <head>): flags that JS is on, so
- * scroll-in reveals may hide content until it is observed.
+ * Runs before first paint (inlined in <head>): flags that JS is on, and plays
+ * the start loader once per browser session (never with reduced motion).
  */
-export const BOOT_SCRIPT = `(function(){var d=document.documentElement;d.dataset.js='1';d.dataset.intro='done';})();`;
+export const BOOT_SCRIPT = `(function(){var d=document.documentElement;d.dataset.js='1';d.dataset.intro='done';try{var rm=matchMedia('(prefers-reduced-motion: reduce)').matches;if(!rm&&!sessionStorage.getItem('ms:boot')){d.dataset.loader='on';sessionStorage.setItem('ms:boot','1');setTimeout(function(){d.dataset.loader='done';},${LOADER_MS}+200);}}catch(e){}})();`;

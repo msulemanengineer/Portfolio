@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Mono, Instrument_Sans, Instrument_Serif, Newsreader } from "next/font/google";
 import type { ReactNode } from "react";
 import { SheetChrome } from "@/components/chrome/SheetChrome";
+import { StartLoader } from "@/components/chrome/StartLoader";
 import { BOOT_SCRIPT } from "@/lib/origin/timeline";
 import { SITE_DESCRIPTION, SITE_TITLE, SITE_URL, personJsonLd, websiteJsonLd } from "@/lib/site";
 import "./globals.css";
@@ -105,6 +106,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify([personJsonLd, websiteJsonLd]) }}
         />
+        <StartLoader />
         <SheetChrome>{children}</SheetChrome>
       </body>
     </html>
