@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 node_modules
 .next
 out
@@ -9,3 +10,13 @@ config.bat
 branch_structure.json
 temp_auto_push.bat
 temp_interactive_push.bat
+=======
+node_modules
+.next
+out
+next-env.d.ts
+*.tsbuildinfo
+.env*.local
+.DS_Store
+.vscode
+>>>>>>> Stashed changes
